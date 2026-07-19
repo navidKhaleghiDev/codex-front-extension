@@ -1,0 +1,56 @@
+{
+  "name": "codex-usage-monitor",
+  "displayName": "Codex Usage Monitor",
+  "description": "Codex-only plan usage, workspace sessions, model analytics, and Markdown context export in VS Code.",
+  "version": "0.2.0",
+  "publisher": "navid-local",
+  "license": "MIT",
+  "engines": { "vscode": "^1.95.0" },
+  "categories": ["Other", "Visualization"],
+  "activationEvents": ["onStartupFinished", "onView:codexUsage.sidebar"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "codexUsage.openDashboard", "title": "Codex Usage: Open Full Dashboard", "icon": "$(graph)" },
+      { "command": "codexUsage.refresh", "title": "Codex Usage: Refresh", "icon": "$(refresh)" },
+      { "command": "codexUsage.exportSession", "title": "Codex Usage: Export Session Context" },
+      { "command": "codexUsage.restartServer", "title": "Codex Usage: Restart App Server" }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "codexUsage", "title": "Codex Usage", "icon": "media/codex-activity.svg" }
+      ]
+    },
+    "views": {
+      "codexUsage": [
+        { "type": "webview", "id": "codexUsage.sidebar", "name": "Usage Dashboard", "contextualTitle": "Codex Usage" }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        { "command": "codexUsage.refresh", "when": "view == codexUsage.sidebar", "group": "navigation" },
+        { "command": "codexUsage.openDashboard", "when": "view == codexUsage.sidebar", "group": "navigation" }
+      ]
+    },
+    "configuration": {
+      "title": "Codex Usage Monitor",
+      "properties": {
+        "codexUsage.codexPath": { "type": "string", "default": "codex", "description": "Path to the Codex CLI executable." },
+        "codexUsage.refreshIntervalSeconds": { "type": "number", "default": 60, "minimum": 15, "description": "Fallback polling interval for account and workspace-session usage." },
+        "codexUsage.showRemainingInsteadOfUsed": { "type": "boolean", "default": false, "description": "Show remaining percentage rather than used percentage in the status bar." }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "package": "npm run compile && vsce package --allow-missing-repository",
+    "check": "tsc --noEmit -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.95.0",
+    "@vscode/vsce": "^3.2.1",
+    "typescript": "^5.7.2"
+  }
+}
