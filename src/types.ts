@@ -64,6 +64,49 @@ export interface ModelUsage {
   sessions: number;
 }
 
+export interface ContextSignal {
+  sessionId: string;
+  sessionName: string;
+  text: string;
+}
+
+export interface CodeRelation {
+  path: string;
+  relation: "changed" | "keyword-match" | "graph-node";
+  confidence: number;
+  reason: string;
+}
+
+export interface SessionContextSummary {
+  id: string;
+  name: string;
+  summary: string;
+  assumptions: string[];
+  prompts: string[];
+  touchedPaths: string[];
+  relatedCode: CodeRelation[];
+  featureContextIds: string[];
+  updatedAt?: number;
+}
+
+export interface FeatureContext {
+  id: string;
+  label: string;
+  keywords: string[];
+  nodeKind: "feature" | "page" | "code-area";
+  sessionIds: string[];
+  sessionCount: number;
+  promptCount: number;
+  changeCount: number;
+  tokens: number;
+  touchedPaths: string[];
+  relatedCode: CodeRelation[];
+  graphNodeRefs: string[];
+  promptSignals: ContextSignal[];
+  assumptionSignals: ContextSignal[];
+  updatedAt?: number;
+}
+
 export interface UsageSnapshot {
   account: AccountInfo | null;
   requiresOpenaiAuth: boolean;
@@ -71,6 +114,8 @@ export interface UsageSnapshot {
   usage: UsageResult | null;
   sessions: CodexSession[];
   models: ModelUsage[];
+  featureContexts: FeatureContext[];
+  sessionContextSummaries: SessionContextSummary[];
   workspacePath?: string;
   updatedAt: Date;
   error?: string;

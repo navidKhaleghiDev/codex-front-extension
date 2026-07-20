@@ -1,0 +1,11 @@
+{
+    "schema_version": 1,
+    "commit": "d6d56732e86e512dfe81c837e4a67dd9a2f02ada",
+    "indexed_at": "2026-07-20T12:25:00Z",
+    "project": "home-navid-codex-front-extension",
+    "nodes": 151,
+    "edges": 359,
+    "original_size": 1900544,
+    "compressed_size": 49384,
+    "compression_level": 3
+}

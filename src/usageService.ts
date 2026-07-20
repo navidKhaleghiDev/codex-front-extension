@@ -1,5 +1,7 @@
 import { EventEmitter } from "node:events";
 import type { CodexAppServerClient } from "./appServerClient";
+import { ContextService } from "./contextService";
+import { ContextStore } from "./contextStore";
 import { SessionService } from "./sessionService";
 import type { AccountInfo, RateLimitsResult, UsageResult, UsageSnapshot } from "./types";
 
@@ -13,6 +15,8 @@ export class UsageService extends EventEmitter {
     usage: null,
     sessions: [],
     models: [],
+    featureContexts: [],
+    sessionContextSummaries: [],
     updatedAt: new Date(0),
   };
 
@@ -49,6 +53,16 @@ export class UsageService extends EventEmitter {
         }
       }
 
+      const featureContexts = ContextService.featureContexts(sessions, this.workspacePath);
+      const sessionContextSummaries = ContextService.sessionContextSummaries(sessions, featureContexts);
+      try {
+        await ContextStore.save(this.workspacePath, sessionContextSummaries, featureContexts);
+      } catch (error) {
+        sessionError = [sessionError, `Context memory could not be written: ${error instanceof Error ? error.message : String(error)}`]
+          .filter(Boolean)
+          .join(" ");
+      }
+
       this.snapshot = {
         account: accountResult.account,
         requiresOpenaiAuth: accountResult.requiresOpenaiAuth,
@@ -56,6 +70,8 @@ export class UsageService extends EventEmitter {
         usage,
         sessions,
         models: SessionService.models(sessions),
+        featureContexts,
+        sessionContextSummaries,
         workspacePath: this.workspacePath,
         updatedAt: new Date(),
         sessionError,

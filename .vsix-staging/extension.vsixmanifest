@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
+  <Metadata>
+    <Identity Language="en-US" Id="codex-usage-monitor" Version="0.2.0" Publisher="navid-local"/>
+    <DisplayName>Codex Context Agent</DisplayName>
+    <Description xml:space="preserve">Turns prior Codex sessions into feature-area context, preserving prompts, assumptions, changes, and usage in VS Code.</Description>
+    <Tags>Codex,Context,Agent,VS Code</Tags>
+    <Categories>Other,Visualization</Categories>
+    <GalleryFlags>Public</GalleryFlags>
+    <Properties>
+      <Property Id="Microsoft.VisualStudio.Code.Engine" Value="^1.95.0"/>
+      <Property Id="Microsoft.VisualStudio.Code.ExtensionDependencies" Value=""/>
+    </Properties>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Code"/>
+  </Installation>
+  <Dependencies/>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>
+    <Asset Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/README.md" Addressable="true"/>
+    <Asset Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE" Addressable="true"/>
+  </Assets>
+</PackageManifest>
